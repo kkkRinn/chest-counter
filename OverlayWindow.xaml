@@ -1,0 +1,27 @@
+<Window x:Class="ChestCounter.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chest Counter overlay" SizeToContent="WidthAndHeight"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
+        Left="24" Top="24" FontFamily="Segoe UI Variable Display, Segoe UI"
+        MouseLeftButtonDown="Drag" MouseRightButtonUp="Close_Click">
+    <Border Background="#E60A0E1A" BorderBrush="#2A3756" BorderThickness="1" CornerRadius="14" Padding="16,12">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,22,0">
+                    <TextBlock Text="{Binding Total, StringFormat={}{0:N0}}" FontSize="34" FontWeight="Bold" Foreground="#F5A524"/>
+                    <TextBlock Text="Total" Style="{StaticResource Muted}" FontSize="11"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding LastGame}" FontSize="34" FontWeight="Bold"/>
+                    <TextBlock Text="Last game" Style="{StaticResource Muted}" FontSize="11"/>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock Style="{StaticResource Muted}" FontSize="11" Margin="0,8,0,0">
+                <Run Text="Session "/><Run Text="{Binding SessionChests, Mode=OneWay}"/><Run Text="   Avg "/><Run Text="{Binding SessionAvg, Mode=OneWay}"/>
+            </TextBlock>
+            <TextBlock Text="Drag to move. Right-click to close." Style="{StaticResource Muted}" FontSize="10" Margin="0,4,0,0" Opacity="0.6"/>
+        </StackPanel>
+    </Border>
+</Window>

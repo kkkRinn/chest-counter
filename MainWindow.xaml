@@ -1,0 +1,161 @@
+<Window x:Class="ChestCounter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chest Counter" Width="880" Height="520" MinWidth="780" MinHeight="480"
+        Background="#0A0E1A" WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI Variable Display, Segoe UI">
+    <Grid Margin="22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="2,0,2,14">
+            <TextBlock Text="Chest Counter" Foreground="#2EC4D6" FontSize="15" FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock x:Name="StatusText" FontSize="12" VerticalAlignment="Center" Margin="0,0,14,0"/>
+                <TextBlock Text="{Binding ProfileLabel}" Style="{StaticResource Muted}" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.15*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: totals, last event, 7-day chart -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Total, StringFormat={}{0:N0}}" FontSize="48"
+                                           FontWeight="Bold" Foreground="#2EC4D6"/>
+                                <TextBlock Text="Total chests" Style="{StaticResource Muted}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="{Binding LastGame}" FontSize="48" FontWeight="Bold"
+                                           Foreground="#F5A524"/>
+                                <TextBlock Text="Last game" Style="{StaticResource Muted}"/>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Muted}" Margin="0,12,0,0">
+                            <Run Text="Session: "/><Run Text="{Binding SessionChests, Mode=OneWay}"/><Run Text=" chests.  Average game: "/><Run Text="{Binding SessionAvg, Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,0,0,12" Padding="18,10">
+                    <StackPanel>
+                        <TextBlock Text="Last match" Style="{StaticResource Muted}" FontSize="12"/>
+                        <TextBlock Text="{Binding LastEvent}" Foreground="#F2D675" FontSize="15" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" Style="{StaticResource Card}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Last 7 days" Style="{StaticResource Muted}"/>
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Last7}" VerticalAlignment="Bottom">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel VerticalAlignment="Bottom" Margin="5,0">
+                                        <TextBlock Text="{Binding Value}" HorizontalAlignment="Center"
+                                                   FontWeight="SemiBold"/>
+                                        <Border x:Name="bar" Height="{Binding Height}" Background="#2F6FDE"
+                                                CornerRadius="6" Margin="2,4"/>
+                                        <TextBlock Text="{Binding Label}" Style="{StaticResource Muted}"
+                                                   HorizontalAlignment="Center" FontSize="12"/>
+                                    </StackPanel>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding IsToday}" Value="True">
+                                            <Setter TargetName="bar" Property="Background" Value="#2EC4D6"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Right: stat cards + buttons -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Style="{StaticResource Card}" Margin="0,0,6,12">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Today" Style="{StaticResource Muted}"/>
+                        <TextBlock Text="{Binding Today}" Style="{StaticResource StatValue}" Foreground="#2EC4D6"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Card}" Margin="6,0,0,12">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{Binding BestDayLabel}" Style="{StaticResource Muted}"/>
+                        <TextBlock Text="{Binding BestDay}" Style="{StaticResource StatValue}" Foreground="#F5A524"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,0,6,12">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Average per game" Style="{StaticResource Muted}"/>
+                        <TextBlock Text="{Binding AvgPerGame}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Card}" Margin="6,0,0,12">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Best game" Style="{StaticResource Muted}"/>
+                        <TextBlock Text="{Binding BestGame}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Style="{StaticResource Card}" Margin="0,0,6,12">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{Binding SinceLabel}" Style="{StaticResource Muted}"/>
+                        <TextBlock Text="{Binding SinceInstall}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource Card}" Margin="6,0,0,12">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Matches counted" Style="{StaticResource Muted}"/>
+                        <TextBlock Text="{Binding GamesTotal}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+                </Border>
+
+                <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Rows="1">
+                    <Button Content="Overlay" Style="{StaticResource Pill}" Margin="0,0,6,0" Click="Overlay_Click"/>
+                    <Button Content="Report" Style="{StaticResource Pill}" Margin="3,0" Click="Report_Click"/>
+                    <Button Content="Settings" Style="{StaticResource Pill}" Margin="6,0,0,0" Click="Settings_Click"/>
+                </UniformGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

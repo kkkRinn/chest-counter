@@ -1,0 +1,71 @@
+<Window x:Class="ChestCounter.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Width="560" SizeToContent="Height" Background="#0A0E1A"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        FontFamily="Segoe UI Variable Display, Segoe UI">
+    <StackPanel Margin="20">
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="Replay folder" Style="{StaticResource Muted}"/>
+                <Grid Margin="0,6,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="FolderBox"/>
+                    <Button Grid.Column="1" Content="Browse" Style="{StaticResource Pill}" Margin="8,0,0,0"
+                            Padding="0" Click="Browse_Click"/>
+                </Grid>
+                <Grid Margin="0,10,0,0">
+                    <Button x:Name="ImportButton" Content="Import existing replays" Style="{StaticResource Pill}"
+                            HorizontalAlignment="Left" Click="Import_Click"/>
+                    <TextBlock x:Name="ImportStatus" Style="{StaticResource Muted}" HorizontalAlignment="Right"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,10,0">
+                    <TextBlock Text="Chests before counter" Style="{StaticResource Muted}"/>
+                    <TextBox x:Name="OffsetBox" Margin="0,6,0,0" FontSize="20"/>
+                    <TextBlock Text="Added to your total." Style="{StaticResource Muted}" FontSize="11" Margin="0,4,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <TextBlock Text="Profile name (optional)" Style="{StaticResource Muted}"/>
+                    <TextBox x:Name="ProfileBox" Margin="0,6,0,0" FontSize="20"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+            <StackPanel>
+                <CheckBox x:Name="ObsCheck" Content="Serve the OBS overlay (browser source)"/>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="PortBox"/>
+                    <TextBlock x:Name="UrlText" Grid.Column="1" Margin="12,0" VerticalAlignment="Center"
+                               Style="{StaticResource Muted}"/>
+                    <Button Grid.Column="2" Content="Copy link" Style="{StaticResource Pill}" Padding="0" Click="Copy_Click"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+            <CheckBox x:Name="StartupCheck" Content="Start with Windows"/>
+        </Border>
+
+        <Button Content="Save and close" Style="{StaticResource Accent}" Click="Save_Click"/>
+    </StackPanel>
+</Window>
