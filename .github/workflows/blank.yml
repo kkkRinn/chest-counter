@@ -1,0 +1,30 @@
+name: Build ChestCounter.exe
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish single-file exe
+        shell: pwsh
+        run: |
+          $proj = Get-ChildItem -Recurse -Filter ChestCounter.csproj | Select-Object -First 1
+          if (-not $proj) { throw "ChestCounter.csproj not found. Check your upload." }
+          dotnet publish $proj.FullName -c Release -o out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ChestCounter
+          path: out/ChestCounter.exe
